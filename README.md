@@ -2,8 +2,6 @@
 
 Este proyecto es una simulación urbana en NetLogo que modela una ciudad con ciertas políticas urbanas. La simulación incluye diferentes tipos de celdas que representan clases sociales, servicios y características. El objetivo es observar cómo las políticas afectan la distribución y evolución de estas celdas a lo largo del tiempo.
 
-![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/08fb6299-929f-4bdd-8bbb-b8a2583355bf)
-
 ## Descripción del Proyecto
 
 Para la construcción de nuestro autómata, se optó por implementar clases sociales y entidades que representan distintos lugares que afectarán de una forma u otra el desarrollo de las celulas.
@@ -53,15 +51,15 @@ Además, podrá ubicar un selector el cual se titula `Politica`, mediante este p
 
 - `Normalidad`: La simulación más realista; En esta las riquezas se verán agrupadas en sectores específicos que dificilmente variarán, al igual que los sectores críticos, quienes no recibirán ayuda de agentes externos, por lo cual se mantendrán en su situación, o, variarán con la clase media.
 
-![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/0759bd32-3888-4e8c-9def-1b07d06f3a2c)
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/2d796d10-ef56-4bc1-a551-56f0e4b4494e)
 
 - `Equidad`: Aquí, se implementa una política de ayuda económica hacía los sectores más vulnerables de la población. Tanto las clases Alta y Media deberán pagar cierta cantidad de impuestos destinada hacía la clase baja (la clase media también recibe un impuesto en menor medida), estabilizando así el nivel adquisitivo.
 
-![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/a1962ec9-4c09-4248-bd6f-94f7ab462d81)
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/12d5590c-e95b-4024-90ec-ae9cc30e3545)
   
 - `Capitalismo Salvaje`: Esta es la simulación más extrema; Aquí las personas de clase alta acapararán todos los ingresos. Esto se puede definir como un fenómeno de corrupción, visto en varias ciudades en menor medida.
 
-![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/62b6bfae-6835-4faf-b71c-85d72c70d133)
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/0c754035-1ef6-4ec1-bd1a-4f26f0fee15f)
 
 ## Método de contacto
 
