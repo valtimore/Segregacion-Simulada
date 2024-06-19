@@ -514,12 +514,11 @@ to go
 end
 
 ;; ------------------------- Aquí termina el código, empiezan los ajustes en la interfaz ----------------------------------------------------------------
-
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+204
 10
-819
+813
 620
 -1
 -1
@@ -610,10 +609,10 @@ NIL
 1
 
 MONITOR
-28
-412
-151
-457
+42
+408
+165
+453
 Clase
 class-info
 17
@@ -621,10 +620,10 @@ class-info
 11
 
 MONITOR
-29
-467
-151
-512
+43
+463
+165
+508
 Informacion Ingresos
 income-info
 17
@@ -632,10 +631,10 @@ income-info
 11
 
 MONITOR
-29
-522
-148
-567
+43
+518
+162
+563
 Informacion Servicios
 services-info
 17
@@ -643,11 +642,11 @@ services-info
 11
 
 MONITOR
-29
-577
-148
-622
-Informacion Densidad
+43
+573
+163
+618
+Informacion Educacion
 education-info
 17
 1
@@ -655,9 +654,9 @@ education-info
 
 MONITOR
 26
-219
+218
 183
-264
+263
 Total Clase Baja
 count patches with\n[is-low-class? ]
 17
@@ -666,9 +665,9 @@ count patches with\n[is-low-class? ]
 
 MONITOR
 27
-278
+277
 182
-323
+322
 Total Clase Media
 count patches with\n[is-middle-class?]
 17
@@ -677,9 +676,9 @@ count patches with\n[is-middle-class?]
 
 MONITOR
 26
-336
+335
 181
-381
+380
 Total Clase Alta
 count patches with\n[is-high-class?]
 17
@@ -707,10 +706,10 @@ Monitores de población\n
 1
 
 TEXTBOX
-29
-391
-179
-409
+43
+387
+193
+405
 Información sobre la celula
 11
 0.0
