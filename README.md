@@ -2,11 +2,7 @@
 
 Este proyecto es una simulación urbana en NetLogo que modela una ciudad con ciertas políticas urbanas. La simulación incluye diferentes tipos de celdas que representan clases sociales, servicios y características. El objetivo es observar cómo las políticas afectan la distribución y evolución de estas celdas a lo largo del tiempo.
 
-## Descripción del Proyecto
-
-# Simulación de Sociedad con Autómata Celular en NetLogo
-
-Este proyecto es una simulación de una sociedad utilizando un autómata celular, implementado en el software NetLogo. El modelo simula diferentes niveles de ingresos dentro de una comunidad, visualizando cada celda con un color representativo. Además, hay celdas especiales que representan hospitales, colegios, centros recreativos y otros puntos de interés distribuidos por el mapa.
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/08fb6299-929f-4bdd-8bbb-b8a2583355bf)
 
 ## Descripción del Proyecto
 
@@ -56,8 +52,16 @@ Al cargar correctamente el archivo, se generarán distintos botones y monitores 
 Además, podrá ubicar un selector el cual se titula `Politica`, mediante este podrá cambiar las reglas definidas a cada celula. Es importante primero generar una nueva población entre cada cambio para observar óptimamente el comportamiento de la población. Podrá elegir tres opciones:
 
 - `Normalidad`: La simulación más realista; En esta las riquezas se verán agrupadas en sectores específicos que dificilmente variarán, al igual que los sectores críticos, quienes no recibirán ayuda de agentes externos, por lo cual se mantendrán en su situación, o, variarán con la clase media.
+
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/0759bd32-3888-4e8c-9def-1b07d06f3a2c)
+
 - `Equidad`: Aquí, se implementa una política de ayuda económica hacía los sectores más vulnerables de la población. Tanto las clases Alta y Media deberán pagar cierta cantidad de impuestos destinada hacía la clase baja (la clase media también recibe un impuesto en menor medida), estabilizando así el nivel adquisitivo.
+
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/a1962ec9-4c09-4248-bd6f-94f7ab462d81)
+  
 - `Capitalismo Salvaje`: Esta es la simulación más extrema; Aquí las personas de clase alta acapararán todos los ingresos. Esto se puede definir como un fenómeno de corrupción, visto en varias ciudades en menor medida.
+
+![image](https://github.com/valtimore/Segregacion-Simulada/assets/119082415/62b6bfae-6835-4faf-b71c-85d72c70d133)
 
 ## Método de contacto
 
