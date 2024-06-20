@@ -65,8 +65,10 @@ Además, podrá ubicar un selector el cual se titula `Politica`, mediante este p
 
 Si el proyecto no se ejecuta correctamente, o directamente no abre, puede contactarse con cualquier miembro del equipo por medio de los siguientes medios:
 
-- Valentina Londoño Dueñas - `valentina.londono.duenas@correounivalle.edu.co`
-- Juan David Cataño Castillo - `juan.david.catano@correounivalle.edu.co`
-- Kevin Estiven Gil Salcedo - `kevin.gil@correounivalle.edu.co`
-- Nicolás Prado León - `nicolas.prado@correounivalle.edu.co`
+- Juan David Cataño Castillo  -   `juan.david.catano@correounivalle.edu.co`
+- Valentina Londoño Dueñas    -   `valentina.londono.duenas@correounivalle.edu.co`
+- Kevin Estiven Gil Salcedo   -   `kevin.gil@correounivalle.edu.co`
+- Nicolás Prado León          -   `nicolas.prado@correounivalle.edu.co`
+
+Si existe alguna duda puntual, también puede contactar con cualquier integrante por medio de Telegram. 
 
