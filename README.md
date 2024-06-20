@@ -29,23 +29,23 @@ Para la correcta ejecución del proyecto, es crucial tener instalado en el equip
 **2. Abrir el archivo en NetLogo:**
 
 - Inicia NetLogo.
-- Dirígete a `Archivo -> Abrir` y selecciona el archivo `SegregacionFinal.nlogo` que clonaste desde NetLogo.
+- Dirígete a `Archivo -> Abrir` y selecciona el archivo `SegregacionFinal.nlogo` que clonaste desde Github.
 
 **3. Ejecución del modelo:**
 
 Al cargar correctamente el archivo, se generarán distintos botones y monitores en la interfaz. Cada uno cuenta con una funcionalidad.
 
-- `Extinsion`: Al presionar este botón, toda la población existente en la simulación morirá.
+- `Extinción`: Al presionar este botón, toda la población existente en la simulación morirá.
 - `Nacimiento`: Por medio de este botón, se generará toda la población en el mundo simulado, la cual se distribuirá según las configuraciones dadas.
 - `Iniciar`: Este botón ejecuta la simulación.
 
-- `Total clase baja`: Este botón ejecuta la simulación.
-- `Total clase media`: Este botón ejecuta la simulación.
-- `Total clase alta`: Este botón ejecuta la simulación.
-- `Clase`: Este botón ejecuta la simulación.
-- `Información Ingresos`: Este botón ejecuta la simulación.
-- `Información servicios`: Este botón ejecuta la simulación.
-- `Información Educación`: Este botón ejecuta la simulación.
+- `Total clase baja`: Este monitor nos indica la cantidad de personas de clase baja existentes.
+- `Total clase media`: Este monitor nos indica la cantidad de personas de clase media existentes.
+- `Total clase alta`: Este monitor nos indica la cantidad de personas de clase alta existentes.
+- `Clase`: Este monitor nos indica de que clase es la celula sobre la cual posemos el mouse.
+- `Información Ingresos`: Este monitor nos indica la cantidad de ingresos de la celula sobre la cual posemos el mouse.
+- `Información servicios`: Este monitor nos indica el nivel de servicios de la celula sobre la cual posemos el mouse.
+- `Información Educación`: Este monitor nos indica el nivel de educación de la celula sobre la cual posemos el mouse.
 
 Además, podrá ubicar un selector el cual se titula `Politica`, mediante este podrá cambiar las reglas definidas a cada celula. Es importante primero generar una nueva población entre cada cambio para observar óptimamente el comportamiento de la población. Podrá elegir tres opciones:
 
