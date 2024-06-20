@@ -17,7 +17,7 @@ Para la construcción de nuestro autómata, se optó por implementar clases soci
 - `cell-income`: Ingresos económicos de la celula.
 - `cell-services`: Accesibilidad a servicios de la celula, número entre '1, 2, 3'.
 - `cell-education`: Nivel educativo de la celula, número entre '1, 2, 3'..
-- `transition-value`: Valor de transición para determinar clase social de cada celula.
+- `IPM-value`: Valor para determinar la clase social de cada celula.
 
 
 ## Instrucciones de Uso
