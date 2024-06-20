@@ -193,7 +193,9 @@ end
 ;; Establece el valor de transición: se divide el valor de los ingresos para eliminar los ceros (ya que se manejan altos valores de ingresos) y se les suman los servicios y educación
 
 to calculateTransitionValue
-  set transition-value ((cell-income / 100000) + cell-services + cell-education)
+
+  set transition-value ((cell-income / 10000) + cell-services + cell-education )
+
 end
 
 ;; Actualiza la información de los vecinos de una celda
@@ -223,226 +225,380 @@ end
 
 to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y establecimiento de zonas críticas
 
-
   ask patches [ ;; Para la clase Baja
+    if (is-low-class?)
+    [
+      ifelse (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1) ;; Le benefician las entidades, debido a los arrendos
 
-    ifelse ((middle-class-neighbors <= 4 or low-class-neighbors >= 5) and is-low-class?) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase
-
-      [ set-cell-values ]
-
-    [ ifelse ((middle-class-neighbors >= 5 or low-class-neighbors <= 4 ) and is-low-class?) ;; Se beneficia con vecinos de clase media
-
-      [ set cell-income cell-income + 1400000
-        set cell-services cell-services + 1
-        set cell-education cell-education + 1
-
-        calculateTransitionValue ][
-        ifelse (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1)[ ;; Le benefician las entidades, debido a los arrendos
-
+      [
           set cell-income cell-income + 1400000
           set cell-services cell-services + 2
           set cell-education cell-education + 1
           calculateTransitionValue
         ]
-        [ if ((high-class-neighbors >= 5) and is-low-class?) ;; Si su barrio tiene clase alta, se beneficia
 
-          [ set cell-income cell-income + 2500000
+      [ ifelse (middle-class-neighbors <= 4 or low-class-neighbors >= 5) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase
+
+        [ set-cell-values ]
+
+        [ ifelse (high-class-neighbors >= 5) ;; Si su barrio tiene clase alta, se beneficia
+
+          [
+            set cell-income cell-income + 2500000
             set cell-services cell-services + 2
-            set cell-education cell-education + 2
-            calculateTransitionValue ]]]]
-            ]
+            set cell-education cell-education + 1
+            calculateTransitionValue
+          ]
 
+          [ if (middle-class-neighbors >= 5 or low-class-neighbors <= 4 ) ;; Se beneficia con vecinos de clase media
+
+            [
+              set cell-income cell-income + 1400000
+              set cell-services cell-services + 1
+              set cell-education cell-education + 1
+              calculateTransitionValue
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
 
   ask patches [ ;; Para la clase Media
+    if (is-middle-class?)
+    [
 
-    ifelse ((middle-class-neighbors <= 3 and high-class-neighbors >= 4) and is-middle-class?) ;; Se beneficia con vecinos de clase alta
+      ifelse  (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 2) ;; Subirá de estrato y nivel de educación con entidades cerca
 
-      [ set cell-income cell-income + 1000000
-        set cell-services cell-services + 1
+      [
+        set cell-income cell-income + 800000
+        set cell-services cell-services + 1.5
         set cell-education cell-education + 1
-        calculateTransitionValue ][
+        calculateTransitionValue
+      ]
 
-        ifelse(hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 2)[ ;; Subirá de estrato y nivel de educación con entidades cerca
+      [ ifelse  (middle-class-neighbors <= 3 and high-class-neighbors >= 2) ;; Se beneficia con vecinos de clase alta
 
-          set cell-services cell-services + 1.5
+        [
+          set cell-income cell-income + 1400000
+          set cell-services cell-services + 1
           set cell-education cell-education + 1
           calculateTransitionValue
         ]
-        [ ifelse ((low-class-neighbors >= 4) and is-middle-class?) ;; Se verá perjudicada si tiene muchos vecinos clase baja
 
-          [ set cell-income cell-income - 1600000
-            set cell-services cell-services - 1
-            set cell-education cell-education - 1
-            calculateTransitionValue ]
+        [ ifelse (high-class-neighbors > 3)
 
-          [ if ((middle-class-neighbors >= 4) and is-middle-class?) ;; Seguirá igual si su entorno es clase media
-            [ set-cell-values ] ] ] ]]
+          [
+            set cell-income cell-income + 1400000
+            set cell-services cell-services + 1
+            set cell-education cell-education + 1
+            calculateTransitionValue
+          ]
 
+          [ ifelse (middle-class-neighbors >= 5) ;; Seguirá igual si su entorno es clase media
+
+            [ set-cell-values ]
+
+            [ ifelse (low-class-neighbors >= 3 and middle-class-neighbors <= 3) ;; Se verá menos perjudicada si tiene menos vecinos clase baja y algunos clase media
+
+              [
+                set cell-income cell-income - 800000
+                calculateTransitionValue
+              ]
+
+              [ if (low-class-neighbors >= 4) ;; Se verá perjudicada si tiene muchos vecinos clase baja
+
+                [
+                  set cell-income cell-income - 1600000
+                  set cell-services cell-services - 1
+                  set cell-education cell-education - 1
+                  calculateTransitionValue
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
 
   ask patches [   ;; Para la clase Alta
+    if (is-high-class?)
+    [
 
-    ifelse ((high-class-neighbors >= 5 or middle-class-neighbors >= 4) and is-high-class?) ;; Se beneficia si su entorno es clase alta
+      ifelse ((high-class-neighbors >= 5 or middle-class-neighbors >= 4) and is-high-class?) ;; Se beneficia si su entorno es clase alta
 
-      [ set cell-income cell-income + 2500000
-        set cell-services cell-services + 2
-        set cell-education cell-education + 2
-        calculateTransitionValue ]
+      [
+        set cell-income cell-income + 2500000
+        calculateTransitionValue
+      ]
 
-    [ ifelse ((middle-class-neighbors >= 4 or low-class-neighbors >= 5) and is-high-class?) ;; Se perjudica con vecinos de clase baja
+      [ ifelse (hospital-neighbors >= 1 or university-neighbors >= 1)
 
-      [ set cell-income cell-income - 1100000
-        set cell-services cell-services - 1
-        set cell-education cell-education - 1
-        calculateTransitionValue ]
-      [ ifelse store-neighbors >= 2 [
-        set cell-services cell-services - 2
-        calculateTransitionValue]
+        [
+          set cell-income cell-income + 2500000
+          calculateTransitionValue
+        ]
 
-        [if ((low-class-neighbors <= 4) and is-high-class?) ;; Su entorno tiene que ser clase alta para no perder ingresos
+        [ ifelse (middle-class-neighbors >= 4 or low-class-neighbors >= 5) ;; Se perjudica con vecinos de clase baja
 
-          [ set cell-income cell-income - 2500000
-            set cell-services cell-services - 2
-            set cell-education cell-education - 2
-            calculateTransitionValue ] ] ] ]]
+          [
+            set cell-income cell-income - 1100000
+            set cell-services cell-services - 1
+            set cell-education cell-education - 1
+            calculateTransitionValue
+          ]
+
+          [ ifelse store-neighbors >= 2
+
+            [
+              set cell-services cell-services - 2
+              calculateTransitionValue
+            ]
+
+            [ if (low-class-neighbors <= 4) ;; Su entorno tiene que ser clase alta para no perder ingresos
+
+              [
+                set cell-income cell-income - 2500000
+                set cell-services cell-services - 2
+                set cell-education cell-education - 2
+                calculateTransitionValue
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+
 end
 
 
 to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza por medio de impuestos
 
-
   ask patches [ ;; Para la clase Baja
-
-    ifelse ((low-class-neighbors >= 5 or middle-class-neighbors <= 3) and is-low-class?) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase, ya que nadie le puede dar dinero
+    if (is-low-class?)
+    [
+      ifelse (low-class-neighbors >= 7 or middle-class-neighbors <= 2) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase, ya que nadie le puede dar dinero
 
       [ set-cell-values ]
 
-    [ ifelse ((middle-class-neighbors >= 4 or low-class-neighbors <= 5 ) and is-low-class?) ;; Recibirá ingresos si tiene vecinos de clase media
+      [ ifelse  (high-class-neighbors >= 1) ;; Cada clase alta le proveerá de ingresos
 
-      [ set cell-income cell-income + 1200000
-        set cell-services cell-services + 1
-        set cell-education cell-education + 1
-        calculateTransitionValue ][
-
-        ifelse (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1)[ ;; Le benefician las entidades, debido a los arrendos
-
-          set cell-income cell-income + 900000
-          set cell-services cell-services + 2
-          set cell-education cell-education + 1
+        [
+          set cell-income cell-income + 1000000
           calculateTransitionValue
         ]
 
-        [ if ((high-class-neighbors >= 1) and is-low-class?) ;; Cada clase alta le proveerá de ingresos
+        [ ifelse (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1) ;; Le benefician las entidades, debido a los arrendos
 
-          [ set cell-income cell-income + 1400000
-            calculateTransitionValue ]]]]]
+          [
+            set cell-income cell-income + 550000
+            set cell-services cell-services + 1.5
+            set cell-education cell-education + 1
+            calculateTransitionValue
+          ]
 
+          [ ifelse (middle-class-neighbors >= 5 or low-class-neighbors <= 3 ) ;; Recibirá ingresos si tiene vecinos de clase media
+
+            [
+              set cell-income cell-income + 900000
+              calculateTransitionValue
+            ]
+
+            [ if (middle-class-neighbors >= 4 and low-class-neighbors <= 3 ) ;;
+
+              [
+                set cell-income cell-income + 700000
+                calculateTransitionValue
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
 
   ask patches [   ;; Para la clase Media
+    if (is-middle-class?)
+    [
+      ifelse  (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1) ;; Subirá de estrato y nivel de educación con entidades cerca
 
-    ifelse ((middle-class-neighbors <= 3 and high-class-neighbors >= 1) and is-middle-class?) ;; También recibe ingresos por parte de la clase alta
+      [
+        set cell-services cell-services + 1.5
+        set cell-education cell-education + 1
+        calculateTransitionValue
+      ]
 
-      [ set cell-income cell-income + 1000000
-        calculateTransitionValue ][
+      [ ifelse (low-class-neighbors >= 5) ;; Se verá perjudicado, ya que debe pagar impuestos hacía la clase baja
 
-        ifelse(hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1)[ ;; Subirá de estrato y nivel de educación con entidades cerca
-
-          set cell-services cell-services + 1.5
-          set cell-education cell-education + 1
+        [
+          set cell-income cell-income - 600000
+          set cell-services cell-services - 1
+          set cell-education cell-education - 1
           calculateTransitionValue
         ]
-        [ ifelse ((low-class-neighbors >= 4) and is-middle-class?) ;; Se verá perjudicado, ya que debe pagar impuestos hacía la clase baja
 
-          [ set cell-income cell-income - 600000
-            set cell-services cell-services - 1
-            set cell-education cell-education - 1
-            calculateTransitionValue ]
+        [ ifelse (middle-class-neighbors <= 3 and high-class-neighbors >= 1) ;; También recibe ingresos por parte de la clase alta
 
-          [ if ((middle-class-neighbors >= 4) and is-middle-class?) ;; Seguirá igual si su entorno es clase media
+          [
+            set cell-income cell-income + 1200000
+            set cell-services cell-services + 1
+            calculateTransitionValue
 
-            [ set-cell-values ] ] ] ]]
+          ]
 
+          [ ifelse (middle-class-neighbors < 5 )
+
+            [
+              set cell-income cell-income + 1200000
+              calculateTransitionValue
+            ]
+
+            [ if (middle-class-neighbors >= 5) ;; Seguirá igual si su entorno es clase media
+
+              [ set-cell-values  ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
 
   ask patches [   ;; Para la clase Alta
+    if (is-high-class?)
+    [
+      ifelse (middle-class-neighbors >= 4 or low-class-neighbors >= 6) ;; Se perjudica con vecinos de clase baja y media, debe pagar
 
-    ifelse ((high-class-neighbors >= 5 or middle-class-neighbors >= 4) and is-high-class?) ;; Se beneficia si su entorno es mayormente clase alta, no paga impuestos
+      [
+        set cell-income cell-income - 1100000
+        calculateTransitionValue
+      ]
 
-      [ set cell-income cell-income + 2500000
-        set cell-services cell-services + 2
-        set cell-education cell-education + 2
-        calculateTransitionValue ]
+      [ ifelse (high-class-neighbors >= 4 or middle-class-neighbors >= 5) ;; Si su entorno es mayormente clase alta, no paga impuestos
 
-    [ ifelse ((middle-class-neighbors >= 4 or low-class-neighbors >= 5) and is-high-class?) ;; Se perjudica con vecinos de clase baja y media, debe pagar
-
-      [ set cell-income cell-income - 1100000
-        calculateTransitionValue ][ifelse (store-neighbors >= 2)[
-          set cell-services cell-services - 2
-          calculateTransitionValue
+        [
+          set-cell-values
         ]
-        [ if ((low-class-neighbors <= 4) and is-high-class?) ;; Su entorno tiene que ser clase alta para no perder ingresos
 
-          [ set cell-income cell-income - 1000000
-            calculateTransitionValue ] ] ] ]]
+        [ ifelse (store-neighbors >= 2)  ;; Si tiene tiendas cerca se ve perjudicado
+
+          [
+            set cell-services cell-services - 2
+            calculateTransitionValue
+          ]
+
+          [ if (low-class-neighbors <= 4)  ;; Su entorno tiene que ser clase alta para no perder ingresos
+
+            [
+              set cell-income cell-income - 1000000
+              calculateTransitionValue
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+
 end
 
 
 to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riquezas se concentran únicamente en las clases altas
 
   ask patches [ ;; Para la clase Baja
-
-    ifelse ((low-class-neighbors >= 5 or middle-class-neighbors <= 4) and is-low-class?) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase
+    if (is-low-class?)
+    [
+      ifelse (low-class-neighbors >= 5 or middle-class-neighbors <= 3) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase
 
       [ set-cell-values ]
 
-    [ ifelse ((middle-class-neighbors >= 5 or low-class-neighbors <= 4 ) and is-low-class?) ;; Puede ganar ingresos sin tener vecinos clase alta
+      [ ifelse (high-class-neighbors >= 1) ;; Se perjudica con vecinos clase alta, establecen impuestos
 
-      [ set cell-income cell-income + 500000
-        set cell-services cell-services + 1
-        set cell-education cell-education + 1
-        calculateTransitionValue ]
-
-        [ if ((high-class-neighbors >= 1) and is-low-class?) ;; Se perjudica con vecinos clase alta, establecen impuestos
-
-          [ set cell-income cell-income - 100000
-          calculateTransitionValue ] ] ] ]
-
-
-  ask patches [ ;; Para la clase Media
-
-    ifelse ((middle-class-neighbors <= 3 and high-class-neighbors >= 1) and is-middle-class?) ;; La clase alta cobrará impuestos
-
-      [ set cell-income cell-income - 900000
-        calculateTransitionValue ]
-
-        [ ifelse ((low-class-neighbors >= 4) and is-middle-class?) ;; Se verá perjudicado si tiene muchos vecinos clase baja, hay caos y robos
-
-          [ set cell-income cell-income - 600000
-            calculateTransitionValue ]
-
-          [ if ((middle-class-neighbors >= 4) and is-middle-class?) ;; Seguirá igual si su entorno es clase media
-
-        [ set-cell-values ] ] ] ]
-
-
-  ask patches [ ;; Para la clase Alta
-
-    ifelse ((high-class-neighbors >= 5 or middle-class-neighbors >= 4) and is-high-class?) ;; Se beneficia si su entorno es mayormente clase alta
-
-      [ set cell-income cell-income + 2500000
-        set cell-services cell-services + 2
-        set cell-education cell-education + 2
-        calculateTransitionValue ]
-
-    [ ifelse ((middle-class-neighbors >= 4 or low-class-neighbors >= 5) and is-high-class?) ;; Gana impuestos de sus vecinos de clase inferior
-
-      [ set cell-income cell-income + 1100000
-        calculateTransitionValue ][ifelse (store-neighbors >= 2)[
-          set cell-services cell-services + 2
+        [
+          set cell-income cell-income - 100000
           calculateTransitionValue
         ]
-        [ if ((low-class-neighbors <= 4) and is-high-class?) ;; Gana impuestos de los vecinos clase baja
 
-          [ set cell-income cell-income + 1000000
-            calculateTransitionValue ] ] ] ]]
+        [ if (middle-class-neighbors >= 4 or low-class-neighbors <= 3 ) ;; Puede ganar ingresos sin tener vecinos clase alta
+
+          [
+            set cell-income cell-income + 500000
+            set cell-services cell-services + 1
+            set cell-education cell-education + 1
+            calculateTransitionValue
+          ]
+        ]
+      ]
+    ]
+  ]
+
+  ask patches [ ;; Para la clase Media
+    if (is-middle-class?)
+    [
+
+      ifelse  (middle-class-neighbors >= 5) ;; Seguirá igual si su entorno es clase media
+
+      [ set-cell-values ]
+
+      [ ifelse  (middle-class-neighbors <= 5 and high-class-neighbors >= 1) ;; La clase alta cobrará impuestos
+
+        [
+          set cell-income cell-income - 900000
+          calculateTransitionValue
+        ]
+
+        [ if (low-class-neighbors >= 4) ;; Se verá perjudicado si tiene muchos vecinos clase baja, hay caos y robos
+
+          [
+            set cell-income cell-income - 600000
+            set cell-education cell-education - 1
+            set cell-services cell-services - 1
+            calculateTransitionValue
+          ]
+        ]
+      ]
+    ]
+  ]
+
+  ask patches [ ;; Para la clase Alta
+    if (is-high-class?)
+    [
+
+      ifelse (high-class-neighbors >= 5 or middle-class-neighbors >= 4) ;; Se beneficia si su entorno es mayormente clase alta
+
+      [
+        set cell-income cell-income + 2500000
+        set cell-services cell-services + 2
+        set cell-education cell-education + 2
+        calculateTransitionValue
+      ]
+
+      [ ifelse (middle-class-neighbors >= 4 or low-class-neighbors >= 5) ;; Gana impuestos de sus vecinos de clase inferior
+
+        [
+          set cell-income cell-income + 1100000
+          calculateTransitionValue
+        ]
+
+        [ ifelse (store-neighbors >= 2)
+
+          [
+            set cell-services cell-services + 2
+            calculateTransitionValue
+          ]
+
+          [ if (low-class-neighbors <= 4) ;; Gana impuestos de los vecinos clase baja
+
+            [
+              set cell-income cell-income + 1000000
+              calculateTransitionValue
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+
 end
 
 
@@ -693,7 +849,7 @@ CHOOSER
 politica
 politica
 "Normalidad" "Equidad" "Capitalismo Salvaje"
-0
+1
 
 TEXTBOX
 50
