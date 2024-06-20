@@ -23,7 +23,7 @@ patches-own [
   cell-income                     ;; Ingresos de la celda
   cell-services                   ;; Servicios de la celda
   cell-education                  ;; Nivel educativo de la celda
-  transition-value                ;; Valor usado para determinar la clase social
+  IPM-value                ;; Valor usado para determinar la clase social
 
   high-class-neighbors            ;; Vecinos de 'clase alta'
   middle-class-neighbors          ;; Vecinos de 'clase media'
@@ -114,7 +114,7 @@ to assign-high-class
   set cell-income 3200000
   set cell-education 3
   set cell-services 3
-  calculateTransitionValue
+  calculateIPMvalue
   set pcolor green
 end
 
@@ -124,7 +124,7 @@ to assign-middle-class
   set cell-income 2100000
   set cell-education 2
   set cell-services 2
-  calculateTransitionValue
+  calculateIPMvalue
   set pcolor yellow
 end
 
@@ -134,7 +134,7 @@ to assign-low-class
   set cell-income 700000
   set cell-education 1
   set cell-services 1
-  calculateTransitionValue
+  calculateIPMvalue
   set pcolor red
 end
 
@@ -143,21 +143,21 @@ end
 to assign-hospital
   initialize-cell
   set is-hospital? true
-  set transition-value -15
+  set IPM-value -15
   set pcolor black
 end
 
 to assign-university
   initialize-cell
   set is-university? true
-  set transition-value -35
+  set IPM-value -35
   set pcolor white
 end
 
 to assign-store
   initialize-cell
   set is-store? true
-  set transition-value -25
+  set IPM-value -25
   set pcolor violet
 end
 
@@ -192,9 +192,9 @@ end
 
 ;; Establece el valor de transición: se divide el valor de los ingresos para eliminar los ceros (ya que se manejan altos valores de ingresos) y se les suman los servicios y educación
 
-to calculateTransitionValue
+to calculateIPMvalue
 
-  set transition-value ((cell-income / 10000) + cell-services + cell-education )
+  set IPM-value ((cell-income / 100000) + cell-services + cell-education )
 
 end
 
@@ -218,7 +218,7 @@ to set-cell-values
   set cell-income cell-income
   set cell-education cell-education
   set cell-services cell-services
-  calculateTransitionValue
+  calculateIPMvalue
 end
 
 ;; Reglas de transición de clases
@@ -234,7 +234,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
           set cell-income cell-income + 1400000
           set cell-services cell-services + 2
           set cell-education cell-education + 1
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
       [ ifelse (middle-class-neighbors <= 4 or low-class-neighbors >= 5) ;; Sigue igual si la mayoría de sus vecinos son de su misma clase
@@ -247,7 +247,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
             set cell-income cell-income + 2500000
             set cell-services cell-services + 2
             set cell-education cell-education + 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ if (middle-class-neighbors >= 5 or low-class-neighbors <= 4 ) ;; Se beneficia con vecinos de clase media
@@ -256,7 +256,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
               set cell-income cell-income + 1400000
               set cell-services cell-services + 1
               set cell-education cell-education + 1
-              calculateTransitionValue
+              calculateIPMvalue
             ]
           ]
         ]
@@ -274,7 +274,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
         set cell-income cell-income + 800000
         set cell-services cell-services + 1.5
         set cell-education cell-education + 1
-        calculateTransitionValue
+        calculateIPMvalue
       ]
 
       [ ifelse  (middle-class-neighbors <= 3 and high-class-neighbors >= 2) ;; Se beneficia con vecinos de clase alta
@@ -283,7 +283,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
           set cell-income cell-income + 1400000
           set cell-services cell-services + 1
           set cell-education cell-education + 1
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ ifelse (high-class-neighbors > 3)
@@ -292,7 +292,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
             set cell-income cell-income + 1400000
             set cell-services cell-services + 1
             set cell-education cell-education + 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ ifelse (middle-class-neighbors >= 5) ;; Seguirá igual si su entorno es clase media
@@ -303,7 +303,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
 
               [
                 set cell-income cell-income - 800000
-                calculateTransitionValue
+                calculateIPMvalue
               ]
 
               [ if (low-class-neighbors >= 4) ;; Se verá perjudicada si tiene muchos vecinos clase baja
@@ -312,7 +312,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
                   set cell-income cell-income - 1600000
                   set cell-services cell-services - 1
                   set cell-education cell-education - 1
-                  calculateTransitionValue
+                  calculateIPMvalue
                 ]
               ]
             ]
@@ -330,14 +330,14 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
 
       [
         set cell-income cell-income + 2500000
-        calculateTransitionValue
+        calculateIPMvalue
       ]
 
       [ ifelse (hospital-neighbors >= 1 or university-neighbors >= 1)
 
         [
           set cell-income cell-income + 2500000
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ ifelse (middle-class-neighbors >= 4 or low-class-neighbors >= 5) ;; Se perjudica con vecinos de clase baja
@@ -346,14 +346,14 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
             set cell-income cell-income - 1100000
             set cell-services cell-services - 1
             set cell-education cell-education - 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ ifelse store-neighbors >= 2
 
             [
               set cell-services cell-services - 2
-              calculateTransitionValue
+              calculateIPMvalue
             ]
 
             [ if (low-class-neighbors <= 4) ;; Su entorno tiene que ser clase alta para no perder ingresos
@@ -362,7 +362,7 @@ to transition-classes ;; Política 'Normalidad': Agrupación de la riqueza, y es
                 set cell-income cell-income - 2500000
                 set cell-services cell-services - 2
                 set cell-education cell-education - 2
-                calculateTransitionValue
+                calculateIPMvalue
               ]
             ]
           ]
@@ -387,7 +387,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
 
         [
           set cell-income cell-income + 1000000
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ ifelse (hospital-neighbors >= 1 or university-neighbors >= 1 or store-neighbors >= 1) ;; Le benefician las entidades, debido a los arrendos
@@ -396,21 +396,21 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
             set cell-income cell-income + 550000
             set cell-services cell-services + 1.5
             set cell-education cell-education + 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ ifelse (middle-class-neighbors >= 5 or low-class-neighbors <= 3 ) ;; Recibirá ingresos si tiene vecinos de clase media
 
             [
               set cell-income cell-income + 900000
-              calculateTransitionValue
+              calculateIPMvalue
             ]
 
             [ if (middle-class-neighbors >= 4 and low-class-neighbors <= 3 ) ;;
 
               [
                 set cell-income cell-income + 700000
-                calculateTransitionValue
+                calculateIPMvalue
               ]
             ]
           ]
@@ -427,7 +427,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
       [
         set cell-services cell-services + 1.5
         set cell-education cell-education + 1
-        calculateTransitionValue
+        calculateIPMvalue
       ]
 
       [ ifelse (low-class-neighbors >= 5) ;; Se verá perjudicado, ya que debe pagar impuestos hacía la clase baja
@@ -436,7 +436,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
           set cell-income cell-income - 600000
           set cell-services cell-services - 1
           set cell-education cell-education - 1
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ ifelse (middle-class-neighbors <= 3 and high-class-neighbors >= 1) ;; También recibe ingresos por parte de la clase alta
@@ -444,7 +444,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
           [
             set cell-income cell-income + 1200000
             set cell-services cell-services + 1
-            calculateTransitionValue
+            calculateIPMvalue
 
           ]
 
@@ -452,7 +452,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
 
             [
               set cell-income cell-income + 1200000
-              calculateTransitionValue
+              calculateIPMvalue
             ]
 
             [ if (middle-class-neighbors >= 5) ;; Seguirá igual si su entorno es clase media
@@ -472,7 +472,7 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
 
       [
         set cell-income cell-income - 1100000
-        calculateTransitionValue
+        calculateIPMvalue
       ]
 
       [ ifelse (high-class-neighbors >= 4 or middle-class-neighbors >= 5) ;; Si su entorno es mayormente clase alta, no paga impuestos
@@ -485,14 +485,14 @@ to transition-classes-taxes ;; Política 'Equidad': Distribución de la riqueza 
 
           [
             set cell-services cell-services - 2
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ if (low-class-neighbors <= 4)  ;; Su entorno tiene que ser clase alta para no perder ingresos
 
             [
               set cell-income cell-income - 1000000
-              calculateTransitionValue
+              calculateIPMvalue
             ]
           ]
         ]
@@ -516,7 +516,7 @@ to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riqueza
 
         [
           set cell-income cell-income - 100000
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ if (middle-class-neighbors >= 4 or low-class-neighbors <= 3 ) ;; Puede ganar ingresos sin tener vecinos clase alta
@@ -525,7 +525,7 @@ to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riqueza
             set cell-income cell-income + 500000
             set cell-services cell-services + 1
             set cell-education cell-education + 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
         ]
       ]
@@ -544,7 +544,7 @@ to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riqueza
 
         [
           set cell-income cell-income - 900000
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ if (low-class-neighbors >= 4) ;; Se verá perjudicado si tiene muchos vecinos clase baja, hay caos y robos
@@ -553,7 +553,7 @@ to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riqueza
             set cell-income cell-income - 600000
             set cell-education cell-education - 1
             set cell-services cell-services - 1
-            calculateTransitionValue
+            calculateIPMvalue
           ]
         ]
       ]
@@ -570,28 +570,28 @@ to transition-classes-capitalism ;; Política 'Capitalismo Salvaje': Las riqueza
         set cell-income cell-income + 2500000
         set cell-services cell-services + 2
         set cell-education cell-education + 2
-        calculateTransitionValue
+        calculateIPMvalue
       ]
 
       [ ifelse (middle-class-neighbors >= 4 or low-class-neighbors >= 5) ;; Gana impuestos de sus vecinos de clase inferior
 
         [
           set cell-income cell-income + 1100000
-          calculateTransitionValue
+          calculateIPMvalue
         ]
 
         [ ifelse (store-neighbors >= 2)
 
           [
             set cell-services cell-services + 2
-            calculateTransitionValue
+            calculateIPMvalue
           ]
 
           [ if (low-class-neighbors <= 4) ;; Gana impuestos de los vecinos clase baja
 
             [
               set cell-income cell-income + 1000000
-              calculateTransitionValue
+              calculateIPMvalue
             ]
           ]
         ]
@@ -606,7 +606,7 @@ end
 
 to assign-class
   ask patches [
-    if transition-value >= 30 [
+    if IPM-value >= 30 [
 
       set is-low-class? false
       set is-middle-class? false
@@ -615,7 +615,7 @@ to assign-class
 
     ]
 
-    if transition-value >= 20 and transition-value < 30 [
+    if IPM-value >= 20 and IPM-value < 30 [
 
       set is-middle-class? true
       set is-low-class? false
@@ -624,7 +624,7 @@ to assign-class
 
     ]
 
-    if transition-value < 20 and transition-value > 1 [
+    if IPM-value < 20 and IPM-value > 1 [
 
       set is-middle-class? false
       set is-low-class? true
@@ -633,19 +633,19 @@ to assign-class
 
     ]
 
-    if transition-value = 0 [
+    if IPM-value = 0 [
       initialize-cell
     ]
 
     ;; Valores inalcanzables para que las celulas no se transformen en entidades
 
-    if transition-value = -15 [
+    if IPM-value = -15 [
       assign-hospital
     ]
-    if transition-value = -25 [
+    if IPM-value = -25 [
       assign-store
     ]
-    if transition-value = -35 [
+    if IPM-value = -35 [
       assign-university
     ]
   ]
@@ -849,7 +849,7 @@ CHOOSER
 politica
 politica
 "Normalidad" "Equidad" "Capitalismo Salvaje"
-1
+2
 
 TEXTBOX
 50
