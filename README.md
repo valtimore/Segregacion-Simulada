@@ -72,3 +72,5 @@ Si el proyecto no se ejecuta correctamente, o directamente no abre, puede contac
 
 Si existe alguna duda puntual, también puede contactar con cualquier integrante por medio de Telegram. 
 
+<sub>29/06 - ¡Oh! La población existente en esta ciudad ha llegado a la vejez, ya no puede trabajar, los ricos se han pensionado y los pobres invaden los semáforos pidiendo algo de dinero... Todo esto se hubiera podido evitar si el mundo hubiera recibido una calificación pronta... </sub>
+
