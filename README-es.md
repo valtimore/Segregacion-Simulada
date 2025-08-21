@@ -11,10 +11,6 @@ Simulación de dinámicas urbanas y segregación socioeconómica utilizando el s
 
 Este proyecto implementa un autómata celular que simula una ciudad con **diferentes clases sociales** y **entidades de servicios**, desarrollado como parte del curso de Vida Artificial de la Universidad del Valle. La simulación modela cómo las políticas urbanas afectan la distribución y evolución de las clases sociales a lo largo del tiempo.
 
-**Integrantes:**
-- Juan David Cataño Castillo (202160227)
-- Valentina Londoño Dueñas (202160173)
-
 **Fecha de Presentación:** Junio de 2024
 
 ## 🎯 Objetivos
@@ -115,18 +111,14 @@ La simulación permite analizar cómo diferentes políticas urbanas afectan la s
 - Implementar intervenciones políticas más granularizadas
 - Conectar el modelo con datos urbanos reales para validación
 
-## 📖 Referencias
+## Autores ✒️
 
-1. Wilensky, U. (1999). NetLogo. Center for Connected Learning and Computer-Based Modeling, Northwestern University.
-2. Schelling, T. C. (1971). Dynamic models of segregation. Journal of mathematical sociology, 1(2), 143-186.
-3. Batty, M. (2007). Cities and complexity: understanding cities with cellular automata, agent-based models, and fractals. MIT press.
+* **Juan David Cataño** - [Zers04](https://github.com/Zers04)
+* **Valentina Londoño** - [Valtimore](https://github.com/valtimore)
 
-## 📞 Contacto
+## Licencia 📄
 
-Para consultas o problemas técnicos:
-
-- Juan David Cataño Castillo - `juan.david.catano@correounivalle.edu.co`
-- Valentina Londoño Dueñas - `valentina.londono.duenas@correounivalle.edu.co`
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
 
