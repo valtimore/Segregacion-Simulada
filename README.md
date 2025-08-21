@@ -11,10 +11,6 @@ Simulation of urban dynamics and socioeconomic segregation using NetLogo to mode
 
 This project implements a cellular automaton that simulates a city with **different social classes** and ** service entities**, developed as part of the Artificial Life course at Universidad del Valle. The simulation models how various urban policies affect the spatial distribution and evolution of social classes over time.
 
-**Team Members:**
-- Juan David Cataño Castillo (202160227)
-- Valentina Londoño Dueñas (202160173)
-
 **Presentation Date:** June 2024
 
 ## 🎯 Objectives
@@ -115,18 +111,14 @@ The simulation enables analysis of how different urban policies affect socioecon
 - Implement more granular policy interventions
 - Connect the model with real urban data for validation
 
-## 📖 References
+## Authors ✒️
 
-1. Wilensky, U. (1999). NetLogo. Center for Connected Learning and Computer-Based Modeling, Northwestern University.
-2. Schelling, T. C. (1971). Dynamic models of segregation. Journal of mathematical sociology, 1(2), 143-186.
-3. Batty, M. (2007). Cities and complexity: understanding cities with cellular automata, agent-based models, and fractals. MIT press.
+* **Juan David Cataño** - [Zers04](https://github.com/Zers04)
+* **Valentina Londoño** - [Valtimore](https://github.com/valtimore)
 
-## 📞 Contact
+## License 📄
 
-For queries or technical issues:
-
-- Juan David Cataño Castillo - `juan.david.catano@correounivalle.edu.co`
-- Valentina Londoño Dueñas - `valentina.londono.duenas@correounivalle.edu.co`
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
